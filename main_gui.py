@@ -326,11 +326,14 @@ button_2.place(
 # ------------- Select Nomi ------------- #
 
 def update_nomi(event):
+    global current_nomi
     nomi_name = nomi_selection.get()
     for nomi in config_data['nomis']:
         if nomi_name in nomi['name']:
+            current_nomi = nomi
             config_data['default_nomi'] = nomi
             update_config(config_data)
+            update_driver()
             chat_box.config(state=NORMAL)  # Enable the text widget to modify it
             chat_box.delete("1.0", END)    # Delete all the content
             chat_box.config(state=DISABLED)
@@ -374,7 +377,7 @@ canvas.create_window(recta_x1,
                     width=recta_width, 
                     height=recta_height)
 
-def update_listbox():
+def update_listbox(event):
     nomi_box['values'] = [nomi['name'] for nomi in config_data['nomis']]
 
 nomi_box.bind("<<ComboboxSelected>>", defocus_main)
